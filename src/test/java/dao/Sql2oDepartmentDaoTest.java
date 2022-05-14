@@ -1,5 +1,7 @@
 package dao;
 
+import models.Department;
+import models.Users;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +33,19 @@ class Sql2oDepartmentDaoTest {
     }
 
     @Test
-    void add() {
+    void add() throws Exception{
+        Department testDepartment = setupDepartment();
+        int id = testDepartment.getId();
+        departmentDao.add(testDepartment);
+        assertNotEquals(id, testDepartment.getId());
+
     }
 
     @Test
-    void getAll() {
+    void getAll() throws Exception{
+        Department testDepartment = setupDepartment();
+        Department testDepartment1 = setupDepartment();
+        assertEquals(2, departmentDao.getAll().size());
     }
 
     @Test
@@ -48,5 +58,10 @@ class Sql2oDepartmentDaoTest {
 
     @Test
     void clearAll() {
+    }
+    public Department setupDepartment() {
+        Department department = new Department("Sales","scheduling advertisements",15);
+        departmentDao.add(department);
+        return department;
     }
 }
