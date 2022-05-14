@@ -60,10 +60,16 @@ class Sql2oDepartmentDaoTest {
     void deleteById() throws Exception{
         Department testDepartment = setupDepartment();
         Department testDepartment1 = setupDepartment();
+        departmentDao.deleteById(testDepartment.getId());
+        assertEquals(1, departmentDao.getAll().size());
     }
 
     @Test
-    void clearAll() {
+    void clearAll() throws Exception{
+        Department testDepartment = setupDepartment();
+        Department testDepartment1 = setupDepartment();
+        departmentDao.clearAll();
+        assertEquals(0, departmentDao.getAll().size());
     }
     public Department setupDepartment() {
         Department department = new Department("Sales","scheduling advertisements",15);

@@ -62,7 +62,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 
     @Override
     public void clearAll() {
-        String sql = "DELETE * FROM departments";
+        String sql = "DELETE FROM departments";
         try(Connection con =sql2o.open()){
             con.createQuery(sql)
                     .executeUpdate();
