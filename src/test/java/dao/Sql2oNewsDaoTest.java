@@ -1,5 +1,6 @@
 package dao;
 
+import models.Department;
 import models.News;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,18 @@ class Sql2oNewsDaoTest {
 
     }
 
+//    @Test
+//    void addNewsToDepartment() throws Exception{
+//        Department testDepartment = setupDepartment();
+//        departmentDao.add(testDepartment);
+//
+//        News testNews = setupNews();
+//        newsDao.add(testNews);
+//
+//        newsDao.addNewsToDepartment(testNews,testDepartment);
+//        assertEquals(1,newsDao.)
+
+
     @Test
     void getAll() throws Exception{
         News testNews = setupNews();
@@ -60,4 +73,9 @@ class Sql2oNewsDaoTest {
         News news = new News("All employees should report to work on sunday",1);
             return news;
         }
+    public Department setupDepartment() {
+        Department department = new Department("Sales","scheduling advertisements",15);
+        departmentDao.add(department);
+        return department;
+    }
     }
