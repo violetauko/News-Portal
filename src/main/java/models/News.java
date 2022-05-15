@@ -3,6 +3,14 @@ package models;
 import java.util.Objects;
 
 public class News {
+    @Override
+    public String toString() {
+        return "News{" +
+                "GeneralNews='" + GeneralNews + '\'' +
+                ", departmentId=" + departmentId +
+                ", id=" + id +
+                '}';
+    }
 
     private String GeneralNews;
     private int departmentId;

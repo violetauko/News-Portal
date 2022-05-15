@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface NewsDao {
     //create
-    void add(News news);
+    int add(News news);
 
     //read
     List<News> getAll();
-    // List<Restaurant> getAllNewsByDeparment(int departmentId);
+    // List<Department> getAllNewsByDeparment(int departmentId);
 
     //delete
     void deleteById(int id);

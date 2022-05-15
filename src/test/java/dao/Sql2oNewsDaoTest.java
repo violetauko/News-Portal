@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class Sql2oNewsDaoTest {
@@ -20,7 +18,7 @@ class Sql2oNewsDaoTest {
     void setUp() throws Exception{
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/tables.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
-        departmentDao = new Sql2oDepartmentDao(sql2o);
+//        departmentDao = new Sql2oDepartmentDao(sql2o);
         newsDao = new Sql2oNewsDao(sql2o);
         conn = sql2o.open();
     }
@@ -32,31 +30,35 @@ class Sql2oNewsDaoTest {
 
     @Test
     void add() throws Exception{
-        News testNews = setupNewNews();
-        int id = testNews.getId();
-        newsDao.add(testNews);
-        assertNotEquals(id, testNews.getId());
+        News testNews = setupNews();
+        int id =  newsDao.add(testNews);
+
+        assertNotEquals(0, id);
 
     }
 
     @Test
     void getAll() throws Exception{
-        News testNews = setupNewNews();
+        News testNews = setupNews();
         newsDao.add(testNews);
-        assertEquals(1,newsDao.getAll().size());
+        assertTrue(newsDao.getAll().size()>0);
 
     }
-
-    @Test
-    void deleteById() {
-    }
+//
+//    @Test
+//    void deleteById() throws Exception{
+//        News testNews = setupNews();
+//        News testNews1 = setupNews();
+//        newsDao.deleteById(testNews.getId());
+//        assertEquals(1, newsDao.getAll().size());
+//
+//    }
 
     @Test
     void clearAll() {
     }
-    public News setupNewNews(){
-        return new News("All employees should report to work on sunday",1);
-
+    public News setupNews(){
+        News news = new News("All employees should report to work on sunday",1);
+            return news;
+        }
     }
-
-}
