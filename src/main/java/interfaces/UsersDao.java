@@ -11,8 +11,8 @@ public interface UsersDao {
     //read
     List<Users> getAll();
     Users findById(int id);
-    // List<Department> getAllDepartmentsForAUser(int restaurantId);
-
+    // List<Department> getAllDepartmentsForAUser(int departmentId);
+  //List<getAllUsersByDepartment>(int departmentId)
     //delete
     void deleteById(int id);
     void clearAll();
