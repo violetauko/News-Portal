@@ -17,17 +17,18 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     }
 
     @Override
-    public void add(Department department) {
+    public int add(Department department) {
         String sql = "INSERT INTO departments (name, description, totalemployees) VALUES(:name, :description, :totalEmployees)";
         try (Connection con = sql2o.open()) {
             int id = (int) con.createQuery(sql, true)
                     .bind(department)
                     .executeUpdate()
                     .getKey();
-            department.setId(id);
+            return id;
         }catch (Sql2oException ex){
             System.out.println(ex);
         }
+        return 0;
     }
 
     @Override
@@ -35,15 +36,6 @@ public class Sql2oDepartmentDao implements DepartmentDao {
         try(Connection con =sql2o.open()){
             return con.createQuery("SELECT * FROM departments")
                     .executeAndFetch(Department.class);
-        }
-    }
-
-    @Override
-    public Department findById(int id) {
-        try(Connection con =sql2o.open()){
-            return con.createQuery("SELECT * FROM departments WHERE id = :id ")
-                    .addParameter("id", id)
-                    .executeAndFetchFirst(Department.class);
         }
     }
 

@@ -31,31 +31,24 @@ class Sql2oUsersDaoTest {
     @Test
     void add() throws Exception {
         Users testUsers = setupUsers();
-        int id = testUsers.getId();
-        usersDao.add(testUsers);
-        assertNotEquals(id, testUsers.getId());
+        int id = usersDao.add(testUsers);
+        assertNotEquals(0, id);
     }
 
     @Test
     void getAll() throws Exception {
         Users testUsers = setupUsers();
-        Users testUsers1 = setupUsers();
-        assertEquals(2, usersDao.getAll().size());
+        usersDao.add(testUsers);
+        assertTrue(usersDao.getAll().size()>0);
 
 
-    }
-
-    @Test
-    void findById() {
     }
 
     @Test
     void deleteById() {
         Users testUsers = setupUsers();
-        Users testUsers1 = setupUsers();
-        assertEquals(2, usersDao.getAll().size());
-        usersDao.deleteById(testUsers.getId());
-        assertEquals(1, usersDao.getAll().size());
+        int id =usersDao.deleteById(testUsers.getId());
+        assertEquals(0,id);
     }
 
     @Test
@@ -67,7 +60,6 @@ class Sql2oUsersDaoTest {
     }
     public Users setupUsers(){
         Users users = new Users("Ellah","CEO","Managing company",1);
-        usersDao.add(users);
         return users;
     }
 
