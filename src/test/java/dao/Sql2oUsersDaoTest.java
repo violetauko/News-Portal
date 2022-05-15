@@ -1,6 +1,8 @@
 package dao;
 
+import models.Department;
 import models.Users;
+import interfaces.UsersDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,17 +33,27 @@ class Sql2oUsersDaoTest {
     @Test
     void add() throws Exception {
         Users testUsers = setupUsers();
-        int id = usersDao.add(testUsers);
-        assertNotEquals(0, id);
+        int id = testUsers.getId();
+        usersDao.add(testUsers);
+        assertNotEquals(id, testUsers.getId());
     }
 
     @Test
     void getAll() throws Exception {
-        Users testUsers = setupUsers();
-        usersDao.add(testUsers);
+        Users users = setupUsers();
+        usersDao.add(users);
         assertTrue(usersDao.getAll().size()>0);
 
+    }
+    @Test
+    void getAllUsersByDepartment() throws Exception {
+        Department testDepartment = setupDepartment();
+        Department testDepartment1 = setupDepartment();
 
+        Users users = setupUsersForDepartment(testDepartment);
+        Users users1 = setupUsersForDepartment(testDepartment1);
+        Users usersForDepartment1 = setupUsersForDepartment(testDepartment1);
+        assertEquals(2, usersDao.getAllUsersByDepartment(testDepartment.getId()).size());
     }
 
     @Test
@@ -59,6 +71,15 @@ class Sql2oUsersDaoTest {
         assertEquals(0, usersDao.getAll().size());
     }
     public Users setupUsers(){
+        Users users = new Users("Ellah","CEO","Managing company",1);
+
+        return users;
+    }
+    public Department setupDepartment() {
+        Department department = new Department("Sales","scheduling advertisements",15);
+        return department;
+    }
+    public Users setupUsersForDepartment(Department Department) {
         Users users = new Users("Ellah","CEO","Managing company",1);
         return users;
     }

@@ -1,6 +1,7 @@
 package dao;
 
 import interfaces.NewsDao;
+import models.Department;
 import models.News;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -32,6 +33,11 @@ public class Sql2oNewsDao implements NewsDao {
     }
 
     @Override
+    public void addNewsToDepartment(News news, Department department) {
+
+    }
+
+    @Override
     public List<News> getAll() {
         try (Connection con = sql2o.open()) {
             String sql = "SELECT * FROM news";
@@ -42,7 +48,7 @@ public class Sql2oNewsDao implements NewsDao {
         }
 
     @Override
-    public void deleteById(int id) {
+    public int deleteById(int id) {
         String sql = "DELETE FROM news WHERE id = :id";
         try(Connection con =sql2o.open()){
             con.createQuery(sql)
@@ -52,6 +58,7 @@ public class Sql2oNewsDao implements NewsDao {
             System.out.println(ex);
         }
 
+        return id;
     }
 
     @Override

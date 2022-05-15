@@ -50,9 +50,8 @@ class Sql2oDepartmentDaoTest {
     @Test
     void deleteById() throws Exception{
         Department testDepartment = setupDepartment();
-        Department testDepartment1 = setupDepartment();
-        departmentDao.deleteById(testDepartment.getId());
-        assertEquals(1, departmentDao.getAll().size());
+       int id = departmentDao.deleteById(testDepartment.getId());
+        assertEquals(0,id);
     }
 
     @Test

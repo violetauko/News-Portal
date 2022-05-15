@@ -1,7 +1,6 @@
 package interfaces;
 
 import models.Department;
-import models.Users;
 
 import java.util.List;
 
@@ -17,6 +16,6 @@ public interface DepartmentDao {
     //omit for now
 
     //delete
-    void deleteById(int id);
+    int deleteById(int id);
     void clearAll();
 }

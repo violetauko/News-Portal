@@ -44,15 +44,14 @@ class Sql2oNewsDaoTest {
         assertTrue(newsDao.getAll().size()>0);
 
     }
-//
-//    @Test
-//    void deleteById() throws Exception{
-//        News testNews = setupNews();
-//        News testNews1 = setupNews();
-//        newsDao.deleteById(testNews.getId());
-//        assertEquals(1, newsDao.getAll().size());
-//
-//    }
+
+    @Test
+    void deleteById() throws Exception{
+        News testNews = setupNews();
+        int id =newsDao.deleteById(testNews.getId());
+        assertEquals(0, id);
+
+    }
 
     @Test
     void clearAll() {

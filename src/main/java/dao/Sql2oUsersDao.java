@@ -15,24 +15,32 @@ public class Sql2oUsersDao implements UsersDao {
 
 
     @Override
-    public int add(Users users) {
+    public void add(Users users) {
             String sql = "INSERT INTO users (name, position, role, departmentid) VALUES(:name, :position, :role, :departmentId)";
             try (Connection con = sql2o.open()) {
                 int id = (int) con.createQuery(sql, true)
                         .bind(users)
                         .executeUpdate()
                         .getKey();
-                return id;
+               users.setId(id);
             }catch (Sql2oException ex){
                 System.out.println(ex);
             }
-        return 0;
     }
 
     @Override
     public List<Users> getAll() {
         try(Connection con =sql2o.open()){
             return con.createQuery("SELECT * FROM users")
+                    .executeAndFetch(Users.class);
+        }
+    }
+
+    @Override
+    public List<Users> getAllUsersByDepartment(int departmentId) {
+        try(Connection con =sql2o.open()){
+            return con.createQuery("SELECT * FROM users WHERE departmentId = :departmentId")
+                    .addParameter("departmentId", departmentId)
                     .executeAndFetch(Users.class);
         }
     }
