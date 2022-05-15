@@ -3,6 +3,7 @@ import dao.Sql2oDepartmentDao;
 import dao.Sql2oNewsDao;
 import dao.Sql2oUsersDao;
 import models.Department;
+import models.News;
 import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -45,6 +46,31 @@ public class App {
         get("/users","application/json",(req, res) ->{
             return gson.toJson(usersDao.getAll());//send it back to be displayed
         });
+
+            post("/users/:id","application/json",(req, res)-> {
+                    int departmentId = Integer.valueOf(req.params("departmentId"));
+                    Users users = gson.fromJson(req.body(), Users.class);
+
+                    users.setDepartmentId(departmentId);
+                    usersDao.add(users);
+                    res.status(201);
+                    return gson.toJson(users);
+                });
+
+            post("/news/new", "application/json",(req, res) ->{
+              News news = gson.fromJson(req.body(),News.class) ;
+              newsDao.add(news);
+              res.status(201);
+              return gson.toJson(news);
+            });
+
+        get("/news","application/json",(req, res) ->{
+            return gson.toJson(newsDao.getAll());//send it back to be displayed
+        });
+
+
+
+
 
 
         after((req, res) ->{

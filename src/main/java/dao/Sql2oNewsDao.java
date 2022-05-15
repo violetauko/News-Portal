@@ -25,6 +25,7 @@ public class Sql2oNewsDao implements NewsDao {
                     .bind(news)
                     .executeUpdate()
                     .getKey();
+            System.out.println(id);
             return id;
         } catch (Sql2oException ex) {
             System.out.println(ex);
@@ -33,7 +34,7 @@ public class Sql2oNewsDao implements NewsDao {
     }
 
     @Override
-    public void addNewsToDepartment(News news, Department department) {
+    public News addNewsToDepartment(News news, Department department) {
         String sql = "INSERT INTO departments_news(departmentid, newsid) VALUES (:departmentId, :newsId)";
         try (Connection con = sql2o.open()){
             con.createQuery(sql)
@@ -44,6 +45,7 @@ public class Sql2oNewsDao implements NewsDao {
             System.out.println(ex);
         }
 
+        return news;
     }
 
     @Override
