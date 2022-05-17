@@ -1,5 +1,6 @@
 package dao;
 import interfaces.UsersDao;
+import models.News;
 import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -69,5 +70,17 @@ public class Sql2oUsersDao implements UsersDao {
             System.out.println(ex);
         }
 
+    }
+
+    @Override
+    public Users findById(int id){
+        String sql = "SELECT * FROM users WHERE  id = :id";
+        try(Connection con = sql2o.open()){
+            return  con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Users.class);
+        }catch (Sql2oException error){
+            throw  error;
+        }
     }
 }

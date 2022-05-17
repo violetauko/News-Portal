@@ -2,11 +2,16 @@ import com.google.gson.Gson;
 import dao.Sql2oDepartmentDao;
 import dao.Sql2oNewsDao;
 import dao.Sql2oUsersDao;
+import exceptions.ApiException;
 import models.Department;
 import models.News;
 import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static spark.Spark.*;
 
 public class App {
@@ -47,31 +52,55 @@ public class App {
             return gson.toJson(usersDao.getAll());//send it back to be displayed
         });
 
-            post("/departments/:departmentId/users/new","application/json",(req, res)-> {
-                    Integer departmentId = Integer.pers(req.params("departmentId"));
-                    Users users = gson.fromJson(req.body(), Users.class);
+        get("/users/:id", "application/json", (req, res) -> {
+            int usersId = Integer.parseInt(req.params("id"));
+            return gson.toJson(usersDao.findById(usersId));
 
-                    users.setDepartmentId(departmentId);
-                    usersDao.add(users);
-                    res.status(201);
-                    return gson.toJson(users);
+        });
+
+        get("/users/:id/delete", "application/json", (req, res) -> {
+            int usersId = Integer.parseInt(req.params("id"));
+            return gson.toJson(usersDao.deleteById(usersId));
+
+        });
+
+            get("/departments/:departmentId/users","application/json",(req, res)-> {
+
                 });
+
+        get("/department/:id", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            return gson.toJson(departmentDao.findById(departmentId));
+
+        });
 
             post("/news/new", "application/json",(req, res) ->{
               News news = gson.fromJson(req.body(),News.class) ;
               newsDao.add(news);
               res.status(201);
               return gson.toJson(news);
+
             });
 
         get("/news","application/json",(req, res) ->{
             return gson.toJson(newsDao.getAll());//send it back to be displayed
         });
 
+        get("/news/:id", "application/json", (req, res) -> {
+            int newsId = Integer.parseInt(req.params("id"));
+            return gson.toJson(newsDao.findById(newsId));
 
+        });
 
-
-
+        exception(ApiException.class, (exc, req, res) -> {
+            ApiException err = (ApiException) exc;
+            Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("status", err.getStatusCode());
+            jsonMap.put("errorMessage", err.getMessage());
+            res.type("application/json"); //after does not run in case of an exception.
+            res.status(err.getStatusCode()); //set the status
+            res.body(gson.toJson(jsonMap));  //set the output.
+        });
 
         after((req, res) ->{
             res.type("application/json");

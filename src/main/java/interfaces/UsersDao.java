@@ -1,5 +1,6 @@
 package interfaces;
 
+import models.News;
 import models.Users;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface UsersDao {
     //delete
     int deleteById(int id);
     void clearAll();
+
+    Users findById(int id);
 }
