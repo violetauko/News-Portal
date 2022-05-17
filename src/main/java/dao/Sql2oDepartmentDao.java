@@ -31,11 +31,23 @@ public class Sql2oDepartmentDao implements DepartmentDao {
         return 0;
     }
 
+
     @Override
     public List<Department> getAll() {
         try(Connection con =sql2o.open()){
             return con.createQuery("SELECT * FROM departments")
                     .executeAndFetch(Department.class);
+        }
+    }
+    @Override
+    public Department findById(int id){
+        String sql = "SELECT * FROM departments WHERE  id = :id";
+        try(Connection con = sql2o.open()){
+            return  con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Department.class);
+        }catch (Sql2oException error){
+            throw  error;
         }
     }
 

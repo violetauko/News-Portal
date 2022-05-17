@@ -15,6 +15,8 @@ public interface DepartmentDao {
     //update
     //omit for now
 
+    Department findById(int id);
+
     //delete
     int deleteById(int id);
     void clearAll();

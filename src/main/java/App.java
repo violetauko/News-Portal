@@ -47,8 +47,8 @@ public class App {
             return gson.toJson(usersDao.getAll());//send it back to be displayed
         });
 
-            post("/users/:id","application/json",(req, res)-> {
-                    int departmentId = Integer.valueOf(req.params("departmentId"));
+            post("/departments/:departmentId/users/new","application/json",(req, res)-> {
+                    Integer departmentId = Integer.pers(req.params("departmentId"));
                     Users users = gson.fromJson(req.body(), Users.class);
 
                     users.setDepartmentId(departmentId);
