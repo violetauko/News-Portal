@@ -41,6 +41,12 @@ public class App {
             return gson.toJson(departmentDao.getAll());//send it back to be displayed
         });
 
+        get("/department/:id", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            return gson.toJson(departmentDao.findById(departmentId));
+
+        });
+
         post("/users/new", "application/json",(req, res) ->{
             Users users = gson.fromJson(req.body(),Users.class) ;
             usersDao.add(users);
@@ -63,17 +69,6 @@ public class App {
             return gson.toJson(usersDao.deleteById(usersId));
 
         });
-
-            get("/departments/:departmentId/users","application/json",(req, res)-> {
-
-                });
-
-        get("/department/:id", "application/json", (req, res) -> {
-            int departmentId = Integer.parseInt(req.params("id"));
-            return gson.toJson(departmentDao.findById(departmentId));
-
-        });
-
             post("/news/new", "application/json",(req, res) ->{
               News news = gson.fromJson(req.body(),News.class) ;
               newsDao.add(news);
