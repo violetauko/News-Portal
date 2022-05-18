@@ -17,8 +17,8 @@ class Sql2oNewsDaoTest {
 
     @BeforeEach
     void setUp() throws Exception{
-        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/tables.sql'";
-        Sql2o sql2o = new Sql2o(connectionString, "", "");
+        String connectionString = "jdbc:postgresql://localhost:5432/news_api_test";
+        Sql2o sql2o = new Sql2o(connectionString, "violet", "3519ella");
         newsDao = new Sql2oNewsDao(sql2o);
         conn = sql2o.open();
     }

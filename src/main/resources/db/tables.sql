@@ -1,26 +1,27 @@
-SET MODE PostgreSQL;
+CREATE DATABASE news_api;
+\c news_api;
 
-CREATE TABLE IF NOT EXISTS departments (
- id int PRIMARY KEY auto_increment,
+CREATE TABLE departments (
+ id SERIAL PRIMARY KEY ,
  name VARCHAR,
  description VARCHAR,
  totalemployees INTEGER
 );
-CREATE TABLE IF NOT EXISTS news (
- id int PRIMARY KEY auto_increment,
+CREATE TABLE  news (
+ id SERIAL PRIMARY KEY ,
  generalnews VARCHAR,
  departmentid INTEGER
 );
-CREATE TABLE IF NOT EXISTS users (
- id int PRIMARY KEY auto_increment,
+CREATE TABLE users (
+ id SERIAL PRIMARY KEY ,
  name VARCHAR,
  position VARCHAR,
  role VARCHAR,
  departmentid INTEGER
 
 );
-CREATE TABLE IF NOT EXISTS departments_news (
-id int PRIMARY KEY auto_increment,
+CREATE TABLE  departments_news (
+id SERIAL PRIMARY KEY ,
 departmentid INTEGER,
 newsid INTEGER
 );

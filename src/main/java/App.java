@@ -10,6 +10,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -22,8 +23,8 @@ public class App {
         Connection conn;
         Gson gson = new Gson();
 
-        String connectionString = "jdbc:h2:~/newsApi.db;INIT=RUNSCRIPT from 'classpath:db/tables.sql'";
-        Sql2o sql2o = new Sql2o(connectionString, "", "");
+        String connectionString = "jdbc:postgresql://localhost:5432/news_api_test";
+        Sql2o sql2o = new Sql2o(connectionString, "violet", "3519ella");
 
         departmentDao = new Sql2oDepartmentDao(sql2o);
         usersDao = new Sql2oUsersDao(sql2o);
@@ -53,8 +54,10 @@ public class App {
 
         });
 
-        post("/users/new", "application/json",(req, res) ->{
+        post("/departments/:id/users/new", "application/json",(req, res) ->{
+            int departmentId = Integer.parseInt(req.params("id"));
             Users users = gson.fromJson(req.body(),Users.class) ;
+            users.setDepartmentId(departmentId);
             usersDao.add(users);
             res.status(201);
             return gson.toJson(users);// display
@@ -62,6 +65,17 @@ public class App {
 
         get("/users","application/json",(req, res) ->{
             return gson.toJson(usersDao.getAll());//send it back to be displayed
+        });
+
+        get("/departments/:id/users", "application/json",(req, res) ->{
+            int departmentId = Integer.parseInt(req.params("id"));
+            Department department = departmentDao.findById(departmentId);
+
+            if (department == null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+            }
+            return gson.toJson(usersDao.getAllUsersByDepartment(departmentId));
+
         });
 
         get("/users/:id", "application/json", (req, res) -> {
