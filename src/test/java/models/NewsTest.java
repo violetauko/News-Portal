@@ -41,7 +41,7 @@ class NewsTest {
     void setDepartmentId() throws Exception{
         News testNews = setupNewNews();
         testNews.setDepartmentId(2);
-        assertNotEquals(2, testNews.getDepartmentId());
+        assertNotEquals(1, testNews.getDepartmentId());
     }
 
     public News setupNewNews(){

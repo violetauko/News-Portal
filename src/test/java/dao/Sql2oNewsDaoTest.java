@@ -19,7 +19,6 @@ class Sql2oNewsDaoTest {
     void setUp() throws Exception{
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/tables.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
-//        departmentDao = new Sql2oDepartmentDao(sql2o);
         newsDao = new Sql2oNewsDao(sql2o);
         conn = sql2o.open();
     }
@@ -37,18 +36,6 @@ class Sql2oNewsDaoTest {
         assertNotEquals(0, id);
 
     }
-
-//    @Test
-//    void addNewsToDepartment() throws Exception{
-//        Department testDepartment = setupDepartment();
-//        departmentDao.add(testDepartment);
-//
-//        News testNews = setupNews();
-//        newsDao.add(testNews);
-//
-//        newsDao.addNewsToDepartment(testNews,testDepartment);
-//        assertEquals(1,newsDao.)
-
 
     @Test
     void getAll() throws Exception{
@@ -73,9 +60,5 @@ class Sql2oNewsDaoTest {
         News news = new News("All employees should report to work on sunday",1);
             return news;
         }
-    public Department setupDepartment() {
-        Department department = new Department("Sales","scheduling advertisements",15);
-        departmentDao.add(department);
-        return department;
-    }
+
     }

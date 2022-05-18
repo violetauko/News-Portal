@@ -43,7 +43,13 @@ public class App {
 
         get("/department/:id", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("id"));
-            return gson.toJson(departmentDao.findById(departmentId));
+            Department departmentToFind = departmentDao.findById(departmentId);
+
+            if(departmentToFind == null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+            }
+
+            return gson.toJson(departmentToFind);
 
         });
 
@@ -60,7 +66,13 @@ public class App {
 
         get("/users/:id", "application/json", (req, res) -> {
             int usersId = Integer.parseInt(req.params("id"));
-            return gson.toJson(usersDao.findById(usersId));
+            Users usersToFind = usersDao.findById(usersId);
+
+            if(usersToFind == null){
+                throw new ApiException(404, String.format("No user with the id: \"%s\" exists", req.params("id")));
+            }
+
+            return gson.toJson(usersToFind);
 
         });
 
@@ -83,8 +95,13 @@ public class App {
 
         get("/news/:id", "application/json", (req, res) -> {
             int newsId = Integer.parseInt(req.params("id"));
-            return gson.toJson(newsDao.findById(newsId));
+            News newsToFind = newsDao.findById(newsId);
 
+            if(newsToFind == null){
+                throw new ApiException(404, String.format("No news with the id: \"%s\" exists", req.params("id")));
+            }
+
+            return gson.toJson(newsToFind);
         });
 
         exception(ApiException.class, (exc, req, res) -> {
